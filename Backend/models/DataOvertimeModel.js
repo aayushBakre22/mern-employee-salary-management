@@ -49,7 +49,4 @@ const DataOvertime = db.define(
   { freezeTableName: true },
 );
 
-DataPegawai.hasMany(DataOvertime, { foreignKey: "id_pegawai" });
-DataOvertime.belongsTo(DataPegawai, { foreignKey: "id_pegawai" });
-
 export default DataOvertime;
