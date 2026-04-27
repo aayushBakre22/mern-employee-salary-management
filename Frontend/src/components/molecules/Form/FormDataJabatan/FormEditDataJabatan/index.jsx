@@ -39,6 +39,28 @@ const FormEditDataJabatan = () => {
 
     const updateDataJabatan = async (e) => {
         e.preventDefault();
+
+         const gaji = Number(gajiPokok);
+    const transport = Number(tjTransport);
+    const makan = Number(uangMakan);
+
+    if (
+      isNaN(gaji) ||
+      isNaN(transport) ||
+      isNaN(makan) ||
+      gaji < 0 ||
+      transport < 0 ||
+      makan < 0
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Input",
+        text: "All salary fields must be valid positive numbers",
+        confirmButtonText: "Ok",
+      });
+      return;
+    }
+
         try {
             const formData = new FormData();
             formData.append('nama_jabatan', namaJabatan);
