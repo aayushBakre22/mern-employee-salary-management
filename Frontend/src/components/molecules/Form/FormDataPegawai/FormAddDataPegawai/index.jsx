@@ -23,6 +23,7 @@ const FormAddDataPegawai = () => {
         preview: '',
         status: '',
         hak_akses: '',
+        designation: '',
     });
 
     const {
@@ -39,6 +40,7 @@ const FormAddDataPegawai = () => {
         preview,
         status,
         hak_akses,
+        designation
     } = formData;
 
     const dispatch = useDispatch();
@@ -81,6 +83,7 @@ const FormAddDataPegawai = () => {
         newFormData.append('tanggal_masuk', tanggalMasuk);
         newFormData.append('status', status);
         newFormData.append('hak_akses', hak_akses);
+        newFormData.append('designation', designation);
 
         dispatch(createDataPegawai(newFormData, navigate))
             .then((response) => {
@@ -272,6 +275,28 @@ const FormAddDataPegawai = () => {
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
+                                    <div className='w-full xl:w-1/2'>
+    <label className='mb-2.5 block text-black dark:text-white'>
+        Designation <span className='text-meta-1'>*</span>
+    </label>
+    <div className='relative z-20 bg-transparent dark:bg-form-input'>
+        <select
+            id='designation'
+            name='designation'
+            value={designation}
+            onChange={handleChange}
+            required={true}
+            className='relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+        >
+            <option value='' disabled>Pilih designation</option>
+            <option value='Mason'>Mason</option>
+            <option value='Electrician'>Electrician</option>
+            <option value='Plumber'>Plumber</option>
+            <option value='Supervisor'>Supervisor</option>
+            <option value='Helper'>Helper</option>
+        </select>
+    </div>
+</div>
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
                                             Tanggal Masuk <span className='text-meta-1'>*</span>

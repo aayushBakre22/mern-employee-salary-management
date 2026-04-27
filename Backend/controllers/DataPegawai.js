@@ -82,6 +82,7 @@ export const getDataPegawaiByNik = async (req, res) => {
         "status",
         "photo",
         "hak_akses",
+        "designation"
       ],
       where: {
         nik: req.params.nik,
@@ -113,6 +114,7 @@ export const getDataPegawaiByName = async (req, res) => {
         "status",
         "photo",
         "hak_akses",
+        "designation"
       ],
       where: {
         nama_pegawai: req.params.name,
@@ -143,7 +145,24 @@ export const createDataPegawai = async (req, res) => {
     tanggal_masuk,
     status,
     hak_akses,
+    designation
   } = req.body;
+
+  if (!designation) {
+  return res.status(400).json({ msg: "Designation is required" });
+}
+
+  const allowedDesignations = [
+  "Mason",
+  "Electrician",
+  "Plumber",
+  "Supervisor",
+  "Helper"
+];
+
+if (!allowedDesignations.includes(designation)) {
+  return res.status(400).json({ msg: "Invalid designation value" });
+}
 
   if (password !== confPassword) {
     return res
@@ -196,6 +215,7 @@ export const createDataPegawai = async (req, res) => {
         photo: fileName,
         url: url,
         hak_akses: hak_akses,
+        designation: designation,
       });
 
       res.status(201).json({ success: true, message: "Registrasi Berhasil" });
@@ -225,7 +245,24 @@ export const updateDataPegawai = async (req, res) => {
     tanggal_masuk,
     status,
     hak_akses,
+    designation
   } = req.body;
+
+  if (!designation) {
+  return res.status(400).json({ msg: "Designation is required" });
+}
+
+    const allowedDesignations = [
+  "Mason",
+  "Electrician",
+  "Plumber",
+  "Supervisor",
+  "Helper"
+];
+
+if (!allowedDesignations.includes(designation)) {
+  return res.status(400).json({ msg: "Invalid designation value" });
+}
 
   try {
     await DataPegawai.update(
@@ -238,6 +275,7 @@ export const updateDataPegawai = async (req, res) => {
         tanggal_masuk: tanggal_masuk,
         status: status,
         hak_akses: hak_akses,
+        designation: designation
       },
       {
         where: {

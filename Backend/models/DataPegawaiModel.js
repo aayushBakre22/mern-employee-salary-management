@@ -54,7 +54,17 @@ const DataPegawai = db.define('data_pegawai', {
         validate: {
             notEmpty: true
         }
-    }
+    },
+    designation: {
+  type: DataTypes.ENUM(
+    "Mason",
+    "Electrician",
+    "Plumber",
+    "Supervisor",
+    "Helper"
+  ),
+  allowNull: false
+},
 }, {
     freezeTableName: true
 });
