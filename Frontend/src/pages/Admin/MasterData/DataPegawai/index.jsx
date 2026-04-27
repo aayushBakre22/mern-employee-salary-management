@@ -144,6 +144,42 @@ const DataPegawai = () => {
         return items;
     };
 
+    const handleExportCSV = () => {
+  const headers = [
+    "NIK",
+    "Name",
+    "Gender",
+    "Join Date",
+    "Status",
+    "Role",
+    "Designation"
+  ];
+
+  const rows = filteredDataPegawai.map((emp) => [
+    emp.nik,
+    emp.nama_pegawai,
+    emp.jenis_kelamin,
+    emp.tanggal_masuk,
+    emp.status,
+    emp.hak_akses,
+    emp.designation || ""
+  ]);
+
+  const csvContent =
+    "data:text/csv;charset=utf-8," +
+    [headers, ...rows]
+      .map((row) => row.join(","))
+      .join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  link.setAttribute("download", `employee_list_${today}.csv`);
+  document.body.appendChild(link);
+  link.click();
+};
+
     return (
         <Layout>
             <Breadcrumb pageName="Data Pegawai" />
@@ -186,6 +222,13 @@ const DataPegawai = () => {
                         </span>
                     </div>
                 </div>
+
+                 <button
+  onClick={handleExportCSV}
+  className="mb-4 px-4 py-2 bg-primary text-white rounded"
+>
+  Download CSV
+</button>
 
                 <div className="max-w-full overflow-x-auto py-4">
                     <table className="w-full table-auto">
