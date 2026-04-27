@@ -230,7 +230,7 @@ const DataPegawai = () => {
   Download CSV
 </button>
 
-                <div className="max-w-full overflow-x-auto py-4">
+                <div className="hidden md:block max-w-full overflow-x-auto py-4">
                     <table className="w-full table-auto">
                         <thead>
                             <tr className="bg-gray-2 text-left dark:bg-meta-4">
@@ -301,6 +301,32 @@ const DataPegawai = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <div className="md:hidden space-y-4">
+  {filteredDataPegawai.slice(startIndex, endIndex).map((data, index) => (
+    <div key={data.id} className="border p-4 rounded-lg shadow-sm bg-white dark:bg-meta-4">
+      
+      <p><strong>No:</strong> {startIndex + index + 1}</p>
+      <p><strong>NIK:</strong> {data.nik}</p>
+      <p><strong>Nama:</strong> {data.nama_pegawai}</p>
+      <p><strong>Designation:</strong> {data.designation}</p>
+      <p><strong>Jenis Kelamin:</strong> {data.jenis_kelamin}</p>
+      <p><strong>Tanggal Masuk:</strong> {data.tanggal_masuk}</p>
+      <p><strong>Status:</strong> {data.status}</p>
+      <p><strong>Hak Akses:</strong> {data.hak_akses}</p>
+
+      <div className="flex gap-3 mt-2">
+        <Link to={`/data-pegawai/form-data-pegawai/edit/${data.id}`}>
+          Edit
+        </Link>
+        <button onClick={() => onDeletePegawai(data.id)}>
+          Delete
+        </button>
+      </div>
+
+    </div>
+  ))}
+</div>
 
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
