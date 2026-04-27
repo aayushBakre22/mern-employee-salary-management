@@ -1,13 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Overtime = () => {
   const [tanggal, setTanggal] = useState("");
   const [jamLembur, setJamLembur] = useState("");
   const [alasan, setAlasan] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState("");
+
+  const [employees, setEmployees] = useState([]);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // fetch employee list
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/data_employee");
+        setEmployees(res.data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load employees");
+      }
+    };
+
+    fetchEmployees();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,8 +33,8 @@ const Overtime = () => {
     setError("");
     setSuccess("");
 
-    // basic frontend validation
-    if (!tanggal || !jamLembur || !alasan) {
+    // basic validation
+    if (!tanggal || !jamLembur || !alasan || !selectedEmployee) {
       setError("All fields are required");
       return;
     }
@@ -26,7 +44,7 @@ const Overtime = () => {
         tanggal,
         jam_lembur: Number(jamLembur),
         alasan,
-        id_pegawai: "test-user"
+        id_pegawai: selectedEmployee
       });
 
       setSuccess(res.data.msg);
@@ -35,6 +53,7 @@ const Overtime = () => {
       setTanggal("");
       setJamLembur("");
       setAlasan("");
+      setSelectedEmployee("");
 
     } catch (err) {
       if (err.response) {
@@ -50,6 +69,22 @@ const Overtime = () => {
       <h2>Overtime Entry</h2>
 
       <form onSubmit={handleSubmit}>
+
+        <div>
+          <label>Select Employee:</label>
+          <select
+            value={selectedEmployee}
+            onChange={(e) => setSelectedEmployee(e.target.value)}
+          >
+            <option value="">Select Employee</option>
+            {employees.map((emp) => (
+              <option key={emp.id_pegawai} value={emp.id_pegawai}>
+                {emp.nama_pegawai}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div>
           <label>Date:</label>
           <input
