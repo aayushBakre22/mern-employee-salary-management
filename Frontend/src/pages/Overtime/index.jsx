@@ -44,7 +44,7 @@ const Overtime = () => {
         tanggal,
         jam_lembur: Number(jamLembur),
         alasan,
-        id_pegawai: selectedEmployee
+        id_pegawai: selectedEmployee,
       });
 
       setSuccess(res.data.msg);
@@ -54,7 +54,6 @@ const Overtime = () => {
       setJamLembur("");
       setAlasan("");
       setSelectedEmployee("");
-
     } catch (err) {
       if (err.response) {
         setError(err.response.data.msg);
@@ -65,61 +64,129 @@ const Overtime = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "500px", margin: "auto" }}>
-      <h2>Overtime Entry</h2>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "#f5f7fa",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "400px",
+          background: "white",
+          padding: "24px",
+          borderRadius: "10px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2 style={{ marginBottom: "20px", textAlign: "center" }}>
+          Overtime Entry
+        </h2>
 
-      <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+        >
+          <div>
+            <label htmlFor="employeeList">Employee</label>
+            <select
+              value={selectedEmployee}
+              id="employeeList"
+              onChange={(e) => setSelectedEmployee(e.target.value)}
+              style={{ width: "100%", padding: "8px", marginTop: "4px" }}
+            >
+              <option value="">Select Employee</option>
+              {employees.map((emp) => (
+                <option key={emp.id_pegawai} value={emp.id_pegawai}>
+                  {emp.nama_pegawai}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label>Select Employee:</label>
-          <select
-            value={selectedEmployee}
-            onChange={(e) => setSelectedEmployee(e.target.value)}
+          <div>
+            <label htmlFor="date">Date</label>
+            <input
+              type="date"
+              value={tanggal}
+              id="date"
+              onChange={(e) => setTanggal(e.target.value)}
+              style={{ width: "100%", padding: "8px", marginTop: "4px" }}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="overtimeHours">Overtime Hours</label>
+            <input
+              type="number"
+              value={jamLembur}
+              id="overtimeHours"
+              onChange={(e) => setJamLembur(e.target.value)}
+              style={{ width: "100%", padding: "8px", marginTop: "4px" }}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="reason">Reason</label>
+            <textarea
+              value={alasan}
+              id="reason"
+              onChange={(e) => setAlasan(e.target.value)}
+              style={{ width: "100%", padding: "8px", marginTop: "4px" }}
+            />
+          </div>
+
+          <button
+            type="submit"
+            style={{
+              marginTop: "10px",
+              padding: "10px",
+              background: "#2563eb",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
           >
-            <option value="">Select Employee</option>
-            {employees.map((emp) => (
-              <option key={emp.id_pegawai} value={emp.id_pegawai}>
-                {emp.nama_pegawai}
-              </option>
-            ))}
-          </select>
-        </div>
+            Submit
+          </button>
+        </form>
 
-        <div>
-          <label>Date:</label>
-          <input
-            type="date"
-            value={tanggal}
-            onChange={(e) => setTanggal(e.target.value)}
-          />
-        </div>
+        {error && (
+          <p
+            style={{
+              marginTop: "10px",
+              color: "#dc2626",
+              background: "#fee2e2",
+              padding: "8px",
+              borderRadius: "6px",
+            }}
+          >
+            {error}
+          </p>
+        )}
 
-        <div>
-          <label>Overtime Hours:</label>
-          <input
-            type="number"
-            value={jamLembur}
-            onChange={(e) => setJamLembur(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label>Reason:</label>
-          <textarea
-            value={alasan}
-            onChange={(e) => setAlasan(e.target.value)}
-          />
-        </div>
-
-        <button type="submit" style={{ marginTop: "10px" }}>
-          Submit
-        </button>
-      </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
+        {success && (
+          <p
+            style={{
+              marginTop: "10px",
+              color: "#16a34a",
+              background: "#dcfce7",
+              padding: "8px",
+              borderRadius: "6px",
+            }}
+          >
+            {success}
+          </p>
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default Overtime;
